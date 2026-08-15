@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: SpringAIStarter
+
+  config:
+    import: optional:file:.env[.properties]
+
+  ai:
+    model:
+      chat: google-genai
+
+    google:
+      genai:
+        api-key: ${GEMINI_API_KEY}
+        chat:
+          options:
+            model: gemini-3-flash-preview
