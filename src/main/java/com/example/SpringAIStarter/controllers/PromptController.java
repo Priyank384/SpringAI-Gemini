@@ -32,4 +32,35 @@ public class PromptController {
 
         return result;
     }
+
+    @GetMapping("/few-shot")
+    public String fewShot(@RequestParam String message){
+        String result = chatClient.prompt()
+                            .user(u -> 
+                                u.text("""
+                                    Tell me the time complexity of the algorithm based on the algorithm 
+                                    name given. Only respond with the time complexity and nothing else.
+
+                                    Examples:
+                                    Text: Merge Sort
+                                    Time Complexity: O(n log n)
+                                    Text: Quick Sort
+                                    Time Complexity: O(n log n)
+                                    Text: Bubble Sort
+                                    Time Complexity: O(n²)
+                                    Text: Binary Search
+                                    Time Complexity: O(log n)
+                                    Text: Insertion Sort
+                                    Time Complexity: O(n²)
+
+
+                                    Text:{algorithmName}
+                                    """)
+                                .param("algorithmName", message))
+                            .call()
+                            .content();
+
+        return result;
+    }
+
 }
