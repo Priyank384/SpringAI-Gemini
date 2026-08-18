@@ -39,7 +39,8 @@ public class PromptController {
                             .user(u -> 
                                 u.text("""
                                     Tell me the time complexity of the algorithm based on the algorithm 
-                                    name given. Only respond with the time complexity and nothing else.
+                                    name given. Only respond with the worst case time complexity 
+                                    of the algorithm, nothing else.
 
                                     Examples:
                                     Text: Merge Sort
@@ -62,5 +63,28 @@ public class PromptController {
 
         return result;
     }
+
+    @GetMapping("/one-shot")
+    public String oneShot(@RequestParam String message){
+        String result = chatClient.prompt()
+                            .user(u -> 
+                                u.text("""
+                                    Tell me a single add-on product that can be recommended to a user based on
+                                    the user's current cart items. Only respond with the product name,
+                                    nothing else. Assume, we are working on a food commerce website.
+
+                                    Examples:
+                                    Cart Items: "Pizza","Burger", "Cake"
+                                    Recommended Add-On Product: "Chips"
+
+                                    Text:{cartItems}
+                                    """)
+                                .param("cartItems", message))
+                            .call()
+                            .content();
+
+        return result;
+    }
+
 
 }
