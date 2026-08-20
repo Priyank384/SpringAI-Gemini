@@ -4,10 +4,23 @@ spring:
 
   config:
     import: optional:file:.env[.properties]
+  
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      client-type: jedis
+
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 100MB
 
   ai:
     model:
       chat: google-genai
+      embedding:
+        text: google-genai
 
     google:
       genai:
@@ -15,3 +28,13 @@ spring:
         chat:
           options:
             model: gemini-3-flash-preview
+        embedding:
+          api-key: ${GEMINI_API_KEY}
+          text:
+            model: gemini-embedding-001
+
+    vectorstore:
+      redis:
+        initialize-schema: true
+        index-name: earning-reports
+        prefix: earnings
